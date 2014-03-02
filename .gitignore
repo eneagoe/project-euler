@@ -1,0 +1,8 @@
+.DS_Store
+solutions/*
+problems/*
+overviews/*
+papers/*
+algorithms/*
+temp/*
+ruby/temp/*

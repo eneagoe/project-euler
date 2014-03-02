@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby -w
+
+require 'benchmark'
+
+$LOAD_PATH.unshift(File.dirname(__FILE__) + "/solutions")
+require "problem#{ARGV[0]}"
+
+problem = Object.const_get("Problem#{ARGV[0]}")
+
+time = (1..ARGV[1].to_i).inject(0) do |real, i|
+
+  time = Benchmark.measure do
+    problem.solution
+  end
+
+  real += time.real
+
+end
+
+puts "Medium execution time: #{time/ARGV[1].to_f} seconds."
