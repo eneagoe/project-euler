@@ -1,14 +1,13 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
-require 'prime'
+require "problem"
+require "prime"
 
+# Solver for http://projecteuler.net/problem=37
 class Problem37 < Problem
-
-  def solve
-
+  def solve # rubocop:disable MethodLength, CyclomaticComplexity
     sum, found = 0, 0
-    Prime.each do |n|
 
+    Prime.each do |n|
       next if n < 10
       i = n
       candidate = true
@@ -27,17 +26,11 @@ class Problem37 < Problem
           found += 1
           break if found >= 11
         end
-
       end
-
     end
 
     sum
-
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem37.solution
-end
+puts Problem37.solution if $PROGRAM_NAME == __FILE__

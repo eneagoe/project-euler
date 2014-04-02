@@ -1,11 +1,12 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
+require "problem"
 
+# Solver for http://projecteuler.net/problem=11
 class Problem11 < Problem
-
   attr_reader :grid
 
-  def initialize
+  def initialize # rubocop:disable MethodLength
+    # rubocop:disable LineLength
     @grid = [
       [8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
       [49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 4, 56, 62, 0],
@@ -29,31 +30,32 @@ class Problem11 < Problem
       [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]]
   end
 
-  def solve
+  def solve # rubocop:disable MethodLength
+    line_max = grid.each.map do |line|
+      line.each_cons(4).map { |slice| slice.reduce(:*) }.max
+    end.max
+    column_max = grid.transpose.each.map do |line|
+      line.each_cons(4).map { |slice| slice.reduce(:*) }.max
+    end.max
 
-    line_max = grid.each.map { |line| line.each_cons(4).map { |slice| slice.reduce(:*) }.max }.max
-    column_max = grid.transpose.each.map { |line| line.each_cons(4).map { |slice| slice.reduce(:*) }.max }.max
-    
-    right_diagonal_max = 
+    right_diagonal_max =
       (0..16).each do |i|
         (0..16).each do |j|
-          grid[i][j] * grid[i+1][j+1] * grid[i+2][j+2] * grid[i+3][j+3]
+          grid[i][j] * grid[i + 1][j + 1] * grid[i + 2][j + 2] *
+            grid[i + 3][j + 3]
         end.max
       end.max
 
-    left_diagonal_max = 
+    left_diagonal_max =
       (3..19).map do |i|
         (0..16).map do |j|
-          grid[i][j] * grid[i-1][j+1] * grid[i-2][j+2] * grid[i-3][j+3]
+          grid[i][j] * grid[i - 1][j + 1] * grid[i - 2][j + 2] *
+            grid[i - 3][j + 3]
         end.max
       end.max
 
     [line_max, column_max, right_diagonal_max, left_diagonal_max].max
-  
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem11.solution
-end
+puts Problem11.solution if $PROGRAM_NAME == __FILE__

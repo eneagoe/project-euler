@@ -1,22 +1,19 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
-require 'memoize'
+require "problem"
+require "memoize"
 
 include Memoize
 
+# Solver for http://projecteuler.net/problem=72
 class Problem72 < Problem
-
   def solve
     memoize :phi
-    phi(1000000) - 2
+    phi(1_000_000) - 2
   end
 
   def phi(n)
-    n*(n+3)/2 - (2..n).reduce(0) { |sum, k| sum += phi(n/k) }
+    n * (n + 3) / 2 - (2..n).reduce(0) { |a, e| a + phi(n / e) }
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem72.solution
-end
+puts Problem72.solution if $PROGRAM_NAME == __FILE__

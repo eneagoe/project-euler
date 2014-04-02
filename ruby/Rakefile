@@ -1,8 +1,8 @@
-require 'rake/testtask'
+require "rake/testtask"
 
 Rake::TestTask.new do |t|
   t.libs.push "lib"
-  t.test_files = FileList['test/*_test.rb']
+  t.test_files = FileList["test/*_test.rb"]
   t.verbose = true
 end
 
@@ -12,27 +12,22 @@ desc "creates an empty file for solving specified problem"
 task :template, :n do |t, args|
   template = <<EOT
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
+require "problem"
 
 class Problem#{args.n} < Problem
-
   def initialize
   end
 
   def solve
     raise "Implement me"
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem#{args.n}.solution
-end
+puts Problem#{args.n}.solution if $PROGRAM_NAME == __FILE__
 EOT
 
   file = "solutions/problem#{args.n}.rb"
   File.open(file, "w") do |f|
     f << template
-  end unless File.exists?(file)
-
+  end unless File.exist?(file)
 end

@@ -1,3 +1,4 @@
+# yields successive fibonacci numbers
 Fibonacci = Enumerator.new do |yielder|
   i, j = 0, 1
   loop do
@@ -5,4 +6,3 @@ Fibonacci = Enumerator.new do |yielder|
     yielder.yield i
   end
 end
-

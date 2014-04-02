@@ -1,6 +1,5 @@
-require 'minitest/autorun'
-
-require 'palindrome'
+require "minitest/autorun"
+require "palindrome"
 
 describe "#reverse" do
   it "should reverse an integer" do
@@ -12,7 +11,6 @@ describe "#reverse" do
 end
 
 describe "#palindrome?" do
-
   it "should be true for palindrome numbers" do
     palindrome?(4).must_equal true
     palindrome?(212).must_equal true
@@ -23,5 +21,4 @@ describe "#palindrome?" do
     palindrome?(10).must_equal false
     palindrome?(1231).must_equal false
   end
-
 end

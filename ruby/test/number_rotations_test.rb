@@ -1,5 +1,5 @@
-require 'minitest/autorun'
-require 'number_rotations'
+require "minitest/autorun"
+require "number_rotations"
 
 describe "#rotations" do
   it "returns all the possible rotations of its argument" do

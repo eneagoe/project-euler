@@ -1,11 +1,12 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
+require "problem"
 
-class Problem13 < Problem
-
+# Solver for http://projecteuler.net/problem=13
+class Problem13 < Problem # rubocop: disable ClassLength
   attr_reader :a
 
-  def initialize
+  def initialize # rubocop:disable MethodLength
+    # rubocop:disable NumericLiterals
     @a = [
       37107287533902102798797998220837590246510135740250,
       46376937677490009712648124896970078050417018260538,
@@ -107,15 +108,11 @@ class Problem13 < Problem
       72107838435069186155435662884062257473692284509516,
       20849603980134001723930671666823555245252804609722,
       53503534226472524250874054075591789781264330331690]
-
   end
 
   def solve
     a.reduce(:+).to_s[0..9]
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem13.solution
-end
+puts Problem13.solution if $PROGRAM_NAME == __FILE__

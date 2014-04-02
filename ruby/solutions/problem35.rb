@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
-require 'number_rotations'
+require "problem"
+require "number_rotations"
+require "prime"
 
-require 'prime'
-
+# Solver for http://projecteuler.net/problem=35
 class Problem35 < Problem
-
   def solve
     Prime.take_while { |n| n < 1_000_000 }.count do |n|
       !invalid_digits(n) && rotations(n).all?(&:prime?)
@@ -20,9 +19,6 @@ class Problem35 < Problem
     end
     false
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem35.solution
-end
+puts Problem35.solution if $PROGRAM_NAME == __FILE__

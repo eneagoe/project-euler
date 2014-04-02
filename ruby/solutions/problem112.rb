@@ -1,23 +1,18 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
-require 'bouncy'
+require "problem"
+require "bouncy"
 
 # brute-force
+# Solver for http://projecteuler.net/problem=112
 class Problem112 < Problem
-
   def solve
-
     bouncies, i = 0, 1
-    while true
+    loop do
       bouncies += 1 if bouncy?(i)
-      break i if bouncies/i.to_f == 0.99
+      break i if bouncies / i.to_f == 0.99
       i += 1
     end
-
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem112.solution
-end
+puts Problem112.solution if $PROGRAM_NAME == __FILE__

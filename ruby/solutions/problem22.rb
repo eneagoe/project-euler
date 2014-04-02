@@ -1,8 +1,8 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
+require "problem"
 
+# Solver for http://projecteuler.net/problem=22
 class Problem22 < Problem
-
   def solve
     File.read("../support-files/names.txt").split(",").
       sort.
@@ -11,11 +11,8 @@ class Problem22 < Problem
   end
 
   def alpha_value(s)
-    s.gsub(/"/, '').bytes.reduce(0) { |sum, i| sum += (i.ord - 64) }
+    s.gsub(/"/, "").bytes.reduce(0) { |a, e| a + e.ord - 64 }
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem22.solution
-end
+puts Problem22.solution if $PROGRAM_NAME == __FILE__

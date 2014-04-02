@@ -1,4 +1,4 @@
-require 'prime'
+require "prime"
 
 # http://en.wikipedia.org/wiki/Divisor_function
 def count_divisors(n)

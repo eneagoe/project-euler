@@ -1,11 +1,11 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
+require "problem"
 
 # very ugly solution
+# Solver for http://projecteuler.net/problem=17
 class Problem17 < Problem
-
   def solve
-    (1..1000).reduce(0) { |sum, n| sum += human_number(n).length }
+    (1..1000).reduce(0) { |a, e| a + human_number(e).length }
   end
 
   NUMBERS_AS_STRING =
@@ -41,31 +41,25 @@ class Problem17 < Problem
     }
 
   def human_number(n)
-
     return "onethousand" if n == 1000
     s = ""
+
     if n >= 100
       s = "#{NUMBERS_AS_STRING[n / 100]}hundred"
       n %= 100
-      if n != 0
-        s << "and"
-      end
+      s << "and" if n != 0
     end
+
     if n != 0
       if n < 20
         s << NUMBERS_AS_STRING[n]
       else
-        s << NUMBERS_AS_STRING[(n / 10)*10]
-        s << NUMBERS_AS_STRING[n%10]
+        s << NUMBERS_AS_STRING[(n / 10) * 10] << NUMBERS_AS_STRING[n % 10]
       end
     end
 
     s
-
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem17.solution
-end
+puts Problem17.solution if $PROGRAM_NAME == __FILE__

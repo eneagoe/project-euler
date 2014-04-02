@@ -1,9 +1,7 @@
-require 'minitest/autorun'
-
-require 'prime_check'
+require "minitest/autorun"
+require "prime_check"
 
 describe "#prime?" do
-
   it "should be true for prime numbers" do
     prime?(3).must_equal true
     prime?(13).must_equal true
@@ -15,5 +13,4 @@ describe "#prime?" do
     prime?(14).must_equal false
     prime?(30).must_equal false
   end
-
 end

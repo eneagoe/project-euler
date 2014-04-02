@@ -1,17 +1,14 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
-require 'gcd'
+require "problem"
+require "gcd"
 
+# Solver for http://projecteuler.net/problem=5
 class Problem5 < Problem
-
   def solve
-    (2..20).reduce { |s, divisor|
-      s = (s % divisor == 0 && s) || (s *= ((p = gcd(s, divisor)) != 1 && p || divisor))
-    }
+    (2..20).reduce do |a, e|
+      (a % e == 0 && a) || (a * ((p = gcd(a, e)) != 1 && p || e))
+    end
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem5.solution
-end
+puts Problem5.solution if $PROGRAM_NAME == __FILE__

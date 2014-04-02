@@ -1,15 +1,14 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
+require "problem"
 
+# Solver for http://projecteuler.net/problem=59
 class Problem59 < Problem
-
   def solve
-
     letters = File.read("../support-files/cipher1.txt").split(",")
     letters[-1].chomp!
 
     # brute-force to get the key
-    #("a".."z").each do |a|
+    # ("a".."z").each do |a|
     #
     #  ("a".."z").each do |b|
     #
@@ -23,17 +22,13 @@ class Problem59 < Problem
     #
     # end
 
-    key = ["g".ord, "o".ord, "d".ord] * (letters.size/3 + 1)
+    key = ["g".ord, "o".ord, "d".ord] * (letters.size / 3 + 1)
     word_value(letters.zip(key).map { |c| (c[0].to_i ^ c[1]).chr }.join)
-
   end
 
   def word_value(s)
     s.bytes.to_a.reduce(:+)
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem59.solution
-end
+puts Problem59.solution if $PROGRAM_NAME == __FILE__

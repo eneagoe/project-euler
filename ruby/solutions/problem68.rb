@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
+require "problem"
 
+# Solver for http://projecteuler.net/problem=68
 # very ugly solution - brute-force to find the magic rings
 class Problem68 < Problem
-
   def solve
-
     current_solution = 0
     (1..10).to_a.permutation.each do |p|
       new_sum = magic_sum(p)
@@ -13,11 +12,9 @@ class Problem68 < Problem
     end
 
     current_solution
-
   end
 
-  def magic_sum(p)
-
+  def magic_sum(p) # rubocop:disable MethodLength, CyclomaticComplexity
     s = []
     a = [p[0], p[1], p[2]]
     b = [p[3], p[2], p[4]]
@@ -26,7 +23,8 @@ class Problem68 < Problem
     e = [p[9], p[8], p[1]]
     m = [p[0], p[3], p[5], p[6], p[9]].min
 
-    if (a.reduce(:+) == b.reduce(:+)) && (a.reduce(:+) == c.reduce(:+)) && (a.reduce(:+) == d.reduce(:+)) && (a.reduce(:+) == e.reduce(:+))
+    if (a.reduce(:+) == b.reduce(:+)) && (a.reduce(:+) == c.reduce(:+)) &&
+      (a.reduce(:+) == d.reduce(:+)) && (a.reduce(:+) == e.reduce(:+))
       if m == p[0]
         s = [a, b, c, d, e]
       elsif m == p[3]
@@ -47,11 +45,7 @@ class Problem68 < Problem
     else
       0
     end
-
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem68.solution
-end
+puts Problem68.solution if $PROGRAM_NAME == __FILE__

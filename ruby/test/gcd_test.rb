@@ -1,6 +1,5 @@
-require 'minitest/autorun'
-
-require 'gcd'
+require "minitest/autorun"
+require "gcd"
 
 describe "#gcd" do
   it "should return the greatest common divisor" do

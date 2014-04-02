@@ -1,8 +1,8 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'problem'
+require "problem"
 
+# Solver for http://projecteuler.net/problem=18
 class Problem18 < Problem
-
   attr_accessor :triangle
 
   def initialize
@@ -24,19 +24,15 @@ class Problem18 < Problem
   end
 
   def solve
-
-    (triangle.size-2).downto(0).each do |row|
+    (triangle.size - 2).downto(0).each do |row|
       (0..row).each do |column|
-        triangle[row][column] += [triangle[row+1][column], triangle[row+1][column+1]].max
+        triangle[row][column] += [triangle[row + 1][column],
+                                  triangle[row + 1][column + 1]].max
       end
     end
 
     triangle[0][0]
-
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem18.solution
-end
+puts Problem18.solution if $PROGRAM_NAME == __FILE__

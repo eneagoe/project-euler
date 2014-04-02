@@ -1,14 +1,12 @@
-require 'minitest/autorun'
-require 'triangle'
+require "minitest/autorun"
+require "triangle"
 
-describe "#is_triangle?" do
-
+describe "#triangle?" do
   it "is true for triangle numbers, false otherwise" do
-    assert is_triangle?(3)
-    assert !is_triangle?(4)
-    assert is_triangle?(6)
-    assert !is_triangle?(12)
-    assert is_triangle?(55)
+    assert triangle?(3)
+    assert !triangle?(4)
+    assert triangle?(6)
+    assert !triangle?(12)
+    assert triangle?(55)
   end
-
 end

@@ -1,27 +1,25 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require 'prime'
+require "prime"
+require "problem"
+require "arithmetic_progression"
 
-require 'problem'
-require 'arithmetic_progression'
-
+# Solver for http://projecteuler.net/problem=49
 class Problem49 < Problem
-
   def solve
     (1001..9997).each do |p|
-      family = prime_family(p).sort
-      return prime_family(p).join if p.prime? && arithmetic_progression?(family)
+      if p.prime? && arithmetic_progression?(prime_family(p).sort)
+        return prime_family(p).join
+      end
     end
   end
 
   def prime_family(n)
-    n.to_s.split(//).permutation.select do |p|
+    a = n.to_s.split(//).permutation.select do |p|
       p = p.join.to_i
       p.prime? && p >= n
-    end.map { |p| p.join.to_i }.uniq.sort
+    end
+    a.map { |p| p.join.to_i }.uniq.sort
   end
-
 end
 
-if $PROGRAM_NAME == __FILE__
-  puts Problem49.solution
-end
+puts Problem49.solution if $PROGRAM_NAME == __FILE__
