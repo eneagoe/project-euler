@@ -14,12 +14,13 @@ task :template, :n do |t, args|
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
 require "problem"
 
+# Solver for http://projecteuler.net/problem=#{args.n}
 class Problem#{args.n} < Problem
   def initialize
   end
 
   def solve
-    raise "Implement me"
+    fail "Implement me"
   end
 end
 
