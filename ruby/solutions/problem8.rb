@@ -23,7 +23,7 @@ class Problem8 < Problem
 
   def solve
     DIGITS.split(//).map(&:to_i).
-      each_cons(5).map { |slice| slice.reduce(:*) }.max
+      each_cons(13).map { |slice| slice.reduce(:*) }.max
   end
 end
 
