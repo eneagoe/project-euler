@@ -5,5 +5,5 @@ def reverse(n)
 end
 
 def palindrome?(n)
-  n - reverse(n) == 0
+  n == reverse(n)
 end
