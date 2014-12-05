@@ -8,9 +8,9 @@ class Problem4 < Problem
     max = 0
 
     999.downto(101).each do |i|
-      # every six-digits palindromes is of the form
+      # every six-digit palindrome is of the form
       # 11(9091a + 910b+100c), so at least one of the
-      # three-digits numbers must be divisible by 11
+      # three-digit numbers must be divisible by 11
       j = 990
       while j >= 101
         product = i * j
