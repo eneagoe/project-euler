@@ -5,6 +5,6 @@ toDigits n
 
 reverseInt = foldl (\ x v -> x*10 + v) 0 . reverse . toDigits
 
-isPalindrome i = i - reverseInt i == 0
+isPalindrome i = i == reverseInt i
 
 solution = maximum [i*j | i <- [999,998..101], j <- [990,979..101], isPalindrome (i * j)]
