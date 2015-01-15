@@ -26,9 +26,9 @@ class Problem61 < Problem
       routes = [[root]]
 
       1.upto(5) do
-        routes = routes.map do |r|
+        routes = routes.flat_map do |r|
           subset(r[-1]).map { |i| [r, i].flatten }
-        end.flatten(1)
+        end
       end
 
       routes.each do |route|

@@ -36,7 +36,7 @@ class Problem68 < Problem
       else
         s = [e, a, b, c, d]
       end
-      s = s.flatten.join("")
+      s = s.join
       if s.length == 16
         s.to_i
       else

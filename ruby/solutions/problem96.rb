@@ -1,5 +1,6 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
 require "problem"
+require "active_support"
 require "active_support/core_ext"
 
 # Solver for http://projecteuler.net/problem=96
@@ -10,11 +11,11 @@ class Problem96 < Problem
     @cells = ("A".."I").to_a.product((1..9).to_a).map(&:join)
     @rows = (1..9).map { |i| ("A".."I").to_a.product([i]).map(&:join) }
     cols = ("A".."I").map { |i| [i].product((1..9).to_a).map(&:join) }
-    boxes = [%w(A B C), %w(D E F), %w(G H I)].map do |u|
+    boxes = [%w(A B C), %w(D E F), %w(G H I)].flat_map do |u|
       [[1, 2, 3], [4, 5, 6], [7, 8, 9]].map do |v|
         u.product(v).map(&:join)
       end
-    end.flatten(1)
+    end
     @peers = {}
     @cells.each do |c|
       @peers[c] = (rows + cols + boxes).select { |u| u.include?(c) }.
