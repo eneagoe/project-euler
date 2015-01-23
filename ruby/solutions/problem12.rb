@@ -13,7 +13,7 @@ class Problem12 < Problem
   end
 
   def solve
-    TriangleEnum.each { |i| break i if count_divisors(i) >= 500 }
+    TriangleEnum.lazy.drop_while { |i| count_divisors(i) < 500 }.first
   end
 end
 
