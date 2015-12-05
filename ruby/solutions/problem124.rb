@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
 require "problem"
-require "mathn"
+require "prime"
 
 # Solver for http://projecteuler.net/problem=124
 # brute-force using standard library factorization methods is fast enough
