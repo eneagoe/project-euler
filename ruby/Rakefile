@@ -9,26 +9,31 @@ end
 task default: :test
 
 desc "creates an empty file for solving specified problem"
-task :template, :n do |t, args|
+task :template, :n do |_, args|
+  skeleton_file = "solutions/problem#{args.n}.rb"
+
+  raise "Already solved" if File.exists(skeleton_file)
   template = <<EOT
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=#{args.n}
-class Problem#{args.n} < Problem
-  def initialize
-  end
-
-  def solve
-    fail "Implement me"
+# Solves http://projecteuler.net/problem=#{args.n}
+class Problem
+  def self.solution_1
+    raise "Implement me"
   end
 end
 
-puts Problem#{args.n}.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end
 EOT
 
-  file = "solutions/problem#{args.n}.rb"
-  File.open(file, "w") do |f|
+  File.open(skeleton_file, "w") do |f|
     f << template
-  end unless File.exist?(file)
+  end
 end

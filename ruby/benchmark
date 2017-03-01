@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby -w
 
-require "benchmark"
+require "benchmark/ips"
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/solutions")
 require "problem#{ARGV[0]}"
 
-problem = Object.const_get("Problem#{ARGV[0]}")
+Benchmark.ips do |x|
+  Problem.methods(false).grep(/solution_\d+/).each do |m|
+    x.report(m.to_s) { Problem.public_send(m) }
+  end
 
-time = (1..ARGV[1].to_i).reduce(0) do |real, i|
-  time = Benchmark.measure { problem.solution }
-  real + time.real
+  x.compare!
 end
-
-puts "Medium execution time: #{time / ARGV[1].to_f} seconds."

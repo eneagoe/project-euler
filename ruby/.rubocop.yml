@@ -5,6 +5,8 @@ AllCops:
   Exclude:
     - 'temp/**'
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
 StringLiterals:
   EnforcedStyle: double_quotes
 

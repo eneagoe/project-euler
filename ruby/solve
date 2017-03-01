@@ -1,3 +1,7 @@
 #!/bin/bash
 
-/usr/bin/env ruby -w solutions/problem$1.rb
+if [ -z "$2" ]; then
+  /usr/bin/env ruby -w solutions/problem$1.rb
+else
+  /usr/bin/env ruby -w solutions/problem$1.rb $2
+fi
