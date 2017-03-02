@@ -1,8 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=8
-class Problem8 < Problem
+# Solves http://projecteuler.net/problem=8
+class Problem
   DIGITS = "731671765313306249192251196744265747423553491949349698352031"\
            "277450632623957831801698480186947885184385861560789112949495"\
            "459501737958331952853208805511125406987471585238630507156932"\
@@ -19,12 +18,19 @@ class Problem8 < Problem
            "442175069416589604080719840385096245544436298123098787992724"\
            "428490918884580156166097919133875499200524063689912560717606"\
            "058861164671094050775410022569831552000559357297257163626956"\
-           "1882670428252483600823257530420752963450"
+           "1882670428252483600823257530420752963450".freeze
 
-  def solve
+  def self.solution_1
     DIGITS.split(//).map(&:to_i).
       each_cons(13).map { |slice| slice.reduce(:*) }.max
   end
 end
 
-puts Problem8.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

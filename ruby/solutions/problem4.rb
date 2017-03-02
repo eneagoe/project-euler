@@ -1,10 +1,9 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "palindrome"
 
-# Solver for http://projecteuler.net/problem=4
-class Problem4 < Problem
-  def solve
+# Solves http://projecteuler.net/problem=4
+class Problem
+  def self.solution_1
     max = 0
 
     999.downto(101).each do |i|
@@ -24,4 +23,11 @@ class Problem4 < Problem
   end
 end
 
-puts Problem4.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

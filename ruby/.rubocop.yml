@@ -7,6 +7,10 @@ AllCops:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
+
 StringLiterals:
   EnforcedStyle: double_quotes
 
@@ -18,6 +22,9 @@ DotPosition:
 
 ClassAndModuleChildren:
   Enabled: false
+
+LineLength:
+  Max: 100
 
 MethodLength:
   Max: 15
