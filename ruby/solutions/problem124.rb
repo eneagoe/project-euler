@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "prime"
 
-# Solver for http://projecteuler.net/problem=124
+# Solves http://projecteuler.net/problem=124
 # brute-force using standard library factorization methods is fast enough
-class Problem124 < Problem
-  def solve
+class Problem
+  def self.solution_1
     limit = 100_000
     n = 10_000
     radicals = (1..limit).map do |i|
@@ -15,4 +14,11 @@ class Problem124 < Problem
   end
 end
 
-puts Problem124.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end
