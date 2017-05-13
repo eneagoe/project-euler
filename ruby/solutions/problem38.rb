@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "pandigital"
 require "set"
 
-# Solver for http://projecteuler.net/problem=38
-class Problem38 < Problem
-  def solve
+# Solves http://projecteuler.net/problem=38
+class Problem
+  def self.solution_1
     pandigitals = Set.new
 
     (1..98_765).each do |n|
@@ -14,11 +13,19 @@ class Problem38 < Problem
         r = r * 10**(Math.log10(i * n).to_i + 1) + i * n
         i += 1
       end
-      pandigitals << r if pandigital?(r) unless r > 987_654_321
+      next if r > 987_654_321
+      pandigitals << r if pandigital?(r)
     end
 
     pandigitals.max
   end
 end
 
-puts Problem38.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

@@ -1,20 +1,19 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "prime_check"
 require "set"
 
-# Solver for http://projecteuler.net/problem=87
-class Problem87 < Problem
-  def solve # rubocop:disable MethodLength
+# Solves http://projecteuler.net/problem=87
+class Problem
+  def self.solution_1
     limit = 50 * 10**6
 
     solution_set = Set.new
     x2, x3, x4 = Math.sqrt(limit).to_i + 1,
                  (limit**(1 / 3.0)).to_i + 1,
                  (limit**(1 / 4.0)).to_i + 1
-    primes2 = (2..x2).reject { |n| !prime?(n) }
-    primes3 = (2..x3).reject { |n| !prime?(n) }
-    primes4 = (2..x4).reject { |n| !prime?(n) }
+    primes2 = (2..x2).select { |n| prime?(n) }
+    primes3 = (2..x3).select { |n| prime?(n) }
+    primes4 = (2..x4).select { |n| prime?(n) }
 
     primes2.each do |x|
       primes3.each do |y|
@@ -33,4 +32,11 @@ class Problem87 < Problem
   end
 end
 
-puts Problem87.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

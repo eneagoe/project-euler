@@ -1,19 +1,27 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
-require "memoize"
+require "memoist"
 
-include Memoize
+# Solves http://projecteuler.net/problem=72
+class Problem
+  class << self
+    extend Memoist
 
-# Solver for http://projecteuler.net/problem=72
-class Problem72 < Problem
-  def solve
+    def solution_1
+      phi(1_000_000) - 2
+    end
+
+    def phi(n)
+      n * (n + 3) / 2 - (2..n).reduce(0) { |a, e| a + phi(n / e) }
+    end
     memoize :phi
-    phi(1_000_000) - 2
-  end
-
-  def phi(n)
-    n * (n + 3) / 2 - (2..n).reduce(0) { |a, e| a + phi(n / e) }
   end
 end
 
-puts Problem72.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "perfect_square"
 
-# Solver for http://projecteuler.net/problem=98
-# brute-force, takes almost 3 minutes
-class Problem98 < Problem
-  def solve
+# Solves http://projecteuler.net/problem=98
+# brute-force, takes too long (~ 3m)
+class Problem
+  def self.solution_1
     max = 0
     # find all anagram sets in the file
     anagrams = File.read("../support-files/p098_words.txt").split(",").
@@ -17,7 +16,7 @@ class Problem98 < Problem
         pair = w.uniq.zip(sub).to_h
         candidates = words.map { |wd| wd.split(//).map { |c| pair[c] }.join }.
                      reject { |word| word.start_with? "0" }.map(&:to_i).
-                     reject { |i| !perfect_square?(i) }
+                     select { |i| perfect_square?(i) }
         # reject candidates that aren't at least in pairs
         max = [candidates.max, max].max unless candidates.length < 2
       end
@@ -26,4 +25,11 @@ class Problem98 < Problem
   end
 end
 
-puts Problem98.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

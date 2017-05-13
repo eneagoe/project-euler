@@ -1,10 +1,9 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "duplicates"
 
-# Solver for http://projecteuler.net/problem=75
-class Problem75 < Problem
-  def solve # rubocop:disable MethodLength, CyclomaticComplexity
+# Solves http://projecteuler.net/problem=75
+class Problem
+  def self.solution_1
     found = []
     n = 1_500_000
     primitives = [[3, 4, 5]]
@@ -12,7 +11,7 @@ class Problem75 < Problem
     a = [[1, 2, 2], [2, 1, 2], [2, 2, 3]]
     d = [[-1, -2, -2], [2, 1, 2], [2, 2, 3]]
 
-    while primitives.size > 0
+    until primitives.empty?
       a0 = primitives.shift
       found << a0
       sum = a0.reduce(:+)
@@ -53,4 +52,11 @@ class Problem75 < Problem
   end
 end
 
-puts Problem75.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

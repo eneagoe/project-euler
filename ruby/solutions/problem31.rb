@@ -1,33 +1,31 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=31
-class Problem31 < Problem
-  attr_reader :coins
+# Solves http://projecteuler.net/problem=31
+class Problem
+  COINS = [1, 2, 5, 10, 20, 50, 100, 200].freeze
 
-  def initialize
-    @coins = [1, 2, 5, 10, 20, 50, 100, 200]
-  end
-
-  def count_change(n, m)
-    if n == 0
+  def self.count_change(n, m)
+    if n.zero?
       1
+    elsif n.negative?
+      0
+    elsif m.negative? && n >= 1
+      0
     else
-      if n < 0
-        0
-      else
-        if m < 0 && n >= 1
-          0
-        else
-          count_change(n, m - 1) + count_change(n - @coins[m], m)
-        end
-      end
+      count_change(n, m - 1) + count_change(n - COINS[m], m)
     end
   end
 
-  def solve
-    count_change(200, @coins.size - 1)
+  def self.solution_1
+    count_change(200, COINS.size - 1)
   end
 end
 
-puts Problem31.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

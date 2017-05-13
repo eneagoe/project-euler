@@ -1,17 +1,19 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "active_support"
 require "active_support/core_ext"
 
-# Solver for http://projecteuler.net/problem=96
-class Problem96 < Problem
-  attr_reader :cells, :rows, :peers
+# Solves http://projecteuler.net/problem=96
+# FIXME: very ugly, and takes too much time
+class Problem
+  class << self
+    attr_reader :cells, :rows, :cells, :peers
+  end
 
-  def initialize
+  def self.solution_1
     @cells = ("A".."I").to_a.product((1..9).to_a).map(&:join)
     @rows = (1..9).map { |i| ("A".."I").to_a.product([i]).map(&:join) }
     cols = ("A".."I").map { |i| [i].product((1..9).to_a).map(&:join) }
-    boxes = [%w(A B C), %w(D E F), %w(G H I)].flat_map do |u|
+    boxes = [%w[A B C], %w[D E F], %w[G H I]].flat_map do |u|
       [[1, 2, 3], [4, 5, 6], [7, 8, 9]].map do |v|
         u.product(v).map(&:join)
       end
@@ -19,11 +21,9 @@ class Problem96 < Problem
     @peers = {}
     @cells.each do |c|
       @peers[c] = (rows + cols + boxes).select { |u| u.include?(c) }.
-        flatten.uniq - [c]
+                  flatten.uniq - [c]
     end
-  end
 
-  def solve
     sum = 0
     sudokus = File.readlines("../support-files/sudoku.txt")
     idx = 0
@@ -37,7 +37,7 @@ class Problem96 < Problem
     sum
   end
 
-  def grid_at(sudokus, idx)
+  def self.grid_at(sudokus, idx)
     start = sudokus[idx * 10 + 1..idx * 10 + 9].map { |l| l.chomp.split(//) }
     grid = {}
     cells.each { |c| grid[c] = ("1".."9").to_a }
@@ -52,34 +52,34 @@ class Problem96 < Problem
     grid
   end
 
-  def solve_grid(grid)
+  def self.solve_grid(grid)
     return false unless grid
-    return grid if grid.all? { |k, v| v.size == 1 }
+    return grid if grid.all? { |_k, v| v.size == 1 }
     candidate = cells.select { |c| grid[c].size > 1 }.
-      sort_by { |l| l.size }.first
+                sort_by(&:size).first
     grid[candidate].find do |potential|
       new_grid = solve_grid assign(grid.deep_dup, candidate, potential)
       return new_grid if new_grid
     end
   end
 
-  def assign(grid, candidate, potential)
+  def self.assign(grid, candidate, potential)
     grid[candidate] = [potential]
     return false if peers[candidate].any? { |c| grid[c] == [potential] }
     grid = eliminate(grid.deep_dup, candidate, potential)
-    return false if cells.any? { |c| grid[c].size == 0 }
+    return false if cells.any? { |c| grid[c].empty? }
     cells.select { |cell| grid[cell].size == 1 }.each do |cell|
       return false if peers[cell].any? { |u| grid[u] == grid[cell] }
     end
     grid
   end
 
-  def eliminate(grid, cell, value)
+  def self.eliminate(grid, cell, value)
     peers[cell].each { |p| grid[p] = grid[p] - [value] }
     grid
   end
 
-  def display(grid)
+  def self.display(grid)
     (1..9).each do |c|
       ("A".."I").each do |r|
         print grid["#{r}#{c}"].join
@@ -89,4 +89,11 @@ class Problem96 < Problem
   end
 end
 
-puts Problem96.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

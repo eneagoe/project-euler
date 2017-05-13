@@ -1,14 +1,13 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=83
-class Problem83 < Problem
-  def solve # rubocop:disable MethodLength, CyclomaticComplexity
+# Solves http://projecteuler.net/problem=83
+class Problem
+  def self.solution_1
     m = Array.new(80, [])
 
     File.open("../support-files/matrix.txt", "r") do |f|
       f.each_with_index do |line, index|
-        m[index] = line.split(/,/).map { |n| n.to_i }
+        m[index] = line.split(/,/).map(&:to_i)
       end
     end
 
@@ -47,16 +46,22 @@ class Problem83 < Problem
       [[u[0] + 1, u[1]], [u[0], u[1] + 1],
        [u[0], u[1] - 1], [u[0] - 1, u[1]]].each do |neighbor|
         next if neighbor[0] > len || neighbor[1] > len ||
-          neighbor[0] < 0 || neighbor[1] < 0
+                neighbor[0].negative? || neighbor[1].negative?
         alt = dist[u] + (m[u[0]][u[1]] + m[neighbor[0]][neighbor[1]])
-        if alt < dist[neighbor]
-          dist[neighbor] = alt
-          q[neighbor] = alt
-          previous[neighbor] = u
-        end
+        next unless alt < dist[neighbor]
+        dist[neighbor] = alt
+        q[neighbor] = alt
+        previous[neighbor] = u
       end
     end
   end
 end
 
-puts Problem83.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

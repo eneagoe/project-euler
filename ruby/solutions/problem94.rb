@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=94
+# Solves http://projecteuler.net/problem=94
 # all perimeters are 3*a + 1, or 3*a - 1. Use Wolframalpha to find the formulas
 # for the integer solutions for triangle areas
-class Problem94 < Problem
-  def solve
+class Problem
+  def self.solution_1
     limit = 10**9
     sum = 0
 
@@ -34,4 +33,11 @@ class Problem94 < Problem
   end
 end
 
-puts Problem94.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

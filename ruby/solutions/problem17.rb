@@ -1,15 +1,14 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
+# Solves http://projecteuler.net/problem=17
 # very ugly solution
-# Solver for http://projecteuler.net/problem=17
-class Problem17 < Problem
-  def solve
-    (1..1000).reduce(0) { |a, e| a + human_number(e).length }
-  end
+class Problem
+  class << self
+    def solution_1
+      (1..1000).reduce(0) { |a, e| a + human_number(e).length }
+    end
 
-  NUMBERS_AS_STRING =
-    {
+    NUMBERS_AS_STRING = {
       0 => "",
       1 => "one",
       2 => "two",
@@ -38,28 +37,36 @@ class Problem17 < Problem
       70 => "seventy",
       80 => "eighty",
       90 => "ninety"
-    }
+    }.freeze
 
-  def human_number(n)
-    return "onethousand" if n == 1000
-    s = ""
+    def human_number(n)
+      return "onethousand" if n == 1000
+      s = ""
 
-    if n >= 100
-      s = "#{NUMBERS_AS_STRING[n / 100]}hundred"
-      n %= 100
-      s << "and" if n != 0
-    end
-
-    if n != 0
-      if n < 20
-        s << NUMBERS_AS_STRING[n]
-      else
-        s << NUMBERS_AS_STRING[(n / 10) * 10] << NUMBERS_AS_STRING[n % 10]
+      if n >= 100
+        s = "#{NUMBERS_AS_STRING[n / 100]}hundred"
+        n %= 100
+        s << "and" if n != 0
       end
-    end
 
-    s
+      if n != 0
+        if n < 20
+          s << NUMBERS_AS_STRING[n]
+        else
+          s << NUMBERS_AS_STRING[(n / 10) * 10] << NUMBERS_AS_STRING[n % 10]
+        end
+      end
+
+      s
+    end
   end
 end
 
-puts Problem17.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

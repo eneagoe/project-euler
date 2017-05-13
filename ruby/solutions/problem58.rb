@@ -1,10 +1,9 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "prime_check"
 
-# Solver for http://projecteuler.net/problem=58
-class Problem58 < Problem
-  def solve
+# Solves http://projecteuler.net/problem=58
+class Problem
+  def self.solution_1
     primes = 0
     n = 3
 
@@ -21,4 +20,11 @@ class Problem58 < Problem
   end
 end
 
-puts Problem58.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

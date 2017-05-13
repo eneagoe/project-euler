@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "pentagonal"
 
-# Solver for http://projecteuler.net/problem=44
-# brute-force, ugly
-class Problem44 < Problem
-  def solve
+# brute-force, ugly, within 1m limit
+# Solves http://projecteuler.net/problem=44
+class Problem
+  def self.solution_1
     j, solution = 1, 0
 
     loop do
@@ -25,4 +24,11 @@ class Problem44 < Problem
   end
 end
 
-puts Problem44.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

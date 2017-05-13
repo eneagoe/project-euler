@@ -1,12 +1,11 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=64
+# Solves http://projecteuler.net/problem=64
 # see http://en.wikipedia.org/wiki/Methods_of_computing_square_roots
-class Problem64 < Problem
-  def solve
+class Problem
+  def self.solution_1
     (2..10_000).count do |s|
-      next if Math.sqrt(s) % 1 == 0
+      next if (Math.sqrt(s) % 1).zero?
 
       m, d, a = 0, 1, Math.sqrt(s).to_i
       period, prev = [], []
@@ -29,4 +28,11 @@ class Problem64 < Problem
   end
 end
 
-puts Problem64.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

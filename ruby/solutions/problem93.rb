@@ -1,14 +1,13 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=93
-class Problem93 < Problem
-  OPERATIONS = %i(- + * /).repeated_permutation(3)
+# Solves http://projecteuler.net/problem=93
+class Problem
+  OPERATIONS = %i[- + * /].repeated_permutation(3)
   # all the possible paranthesised expressions with 4 arguments
   TREES = ["((afb)gc)hd", "(af(bgc))hd", "(afb)g(chd)",
-           "af((bgc)hd)", "af(bg(chd))"]
+           "af((bgc)hd)", "af(bg(chd))"].freeze
 
-  def solve
+  def self.solution_1
     (1..9).to_a.permutation(4).
       select { |a| a[0] < a[1] && a[1] < a[2] && a[2] < a[3] }.max_by do |digits|
       targets = {}
@@ -30,10 +29,17 @@ class Problem93 < Problem
           end
         end
       end
-      targets.keys.sort.select { |i| i > 0 }.
+      targets.keys.sort.select(&:positive?).
         slice_when { |i, j| i + 1 != j }.to_a.first.length
     end.join
   end
 end
 
-puts Problem93.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

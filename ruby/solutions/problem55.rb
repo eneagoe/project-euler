@@ -1,20 +1,28 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "palindrome"
 
-# Solver for http://projecteuler.net/problem=55
-class Problem55 < Problem
-  def solve
-    (1..10_000).count { |i| lychrel?(i) }
-  end
-
-  def lychrel?(n)
-    (1..50).each do |i|
-      n += reverse(n)
-      return false if palindrome?(n)
+# Solves http://projecteuler.net/problem=55
+class Problem
+  class << self
+    def solution_1
+      (1..10_000).count { |i| lychrel?(i) }
     end
-    true
+
+    def lychrel?(n)
+      50.times do
+        n += reverse(n)
+        return false if palindrome?(n)
+      end
+      true
+    end
   end
 end
 
-puts Problem55.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

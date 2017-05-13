@@ -1,11 +1,9 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=66
+# Solves http://projecteuler.net/problem=66
 # Pell equation
-class Problem66 < Problem
-  # rubocop:disable all
-  def solve
+class Problem
+  def self.solution_1
     max, current_solution = 0, 0
 
     (1..1000).each do |d|
@@ -31,4 +29,11 @@ class Problem66 < Problem
   end
 end
 
-puts Problem66.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

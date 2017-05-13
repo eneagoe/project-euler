@@ -1,14 +1,20 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# brute-force, very ugly
-# Solver for http://projecteuler.net/problem=40
-class Problem40 < Problem
-  def solve
+# brute-force, very ugly, but fast
+# Solves for http://projecteuler.net/problem=40
+class Problem
+  def self.solution_1
     s = (0..654_321).to_a.join
     [s[1], s[10], s[100], s[1000], s[10_000], s[100_000], s[1_000_000]].
-      map { |x| x.to_i }.reduce(:*)
+      map(&:to_i).reduce(:*)
   end
 end
 
-puts Problem40.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

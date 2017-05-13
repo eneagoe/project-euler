@@ -1,11 +1,9 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "set"
 
-# Solver for http://projecteuler.net/problem=33
-class Problem33 < Problem
-  # rubocop:disable all
-  def solve
+# Solves http://projecteuler.net/problem=33
+class Problem
+  def self.solution_1
     fractions = []
 
     (1..9).each do |a|
@@ -23,4 +21,11 @@ class Problem33 < Problem
   end
 end
 
-puts Problem33.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

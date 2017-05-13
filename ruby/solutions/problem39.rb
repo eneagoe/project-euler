@@ -1,10 +1,9 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# brute-force, extremely slow
-# Solver for http://projecteuler.net/problem=39
-class Problem39 < Problem
-  def solve
+# brute-force, extremely slow, but still within the 1m limit
+# Solves http://projecteuler.net/problem=39
+class Problem
+  def self.solution_1
     (0..1000).map do |p|
       solutions = 0
       (1..p - 2).each do |c|
@@ -19,4 +18,11 @@ class Problem39 < Problem
   end
 end
 
-puts Problem39.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

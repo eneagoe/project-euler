@@ -1,9 +1,8 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=92
-class Problem92 < Problem
-  def solve # rubocop:disable MethodLength
+# Solves http://projecteuler.net/problem=92
+class Problem
+  def self.solution_1
     finish = 10_000_000
     current_solution = 0
 
@@ -40,10 +39,10 @@ class Problem92 < Problem
     current_solution
   end
 
-  def sq_digits(n)
+  def self.sq_digits(n)
     result = 0
 
-    while n > 0
+    while n.positive?
       result += (n % 10) * (n % 10)
       n /= 10
     end
@@ -52,4 +51,11 @@ class Problem92 < Problem
   end
 end
 
-puts Problem92.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

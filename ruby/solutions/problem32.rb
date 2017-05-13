@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "set"
 
-# Solver for http://projecteuler.net/problem=32
-class Problem32 < Problem
+# Solves http://projecteuler.net/problem=32
+class Problem
   # brute-force, very ugly
-  def solve # rubocop:disable MethodLength
+  def self.solution_1
     valid = Set.new
     (1..9).to_a.permutation.each do |p|
       n = p.join.to_i
@@ -20,7 +19,7 @@ class Problem32 < Problem
       p34 = p24 % 100
 
       if p[0] * p14 == p1 || p01 * p24 == p1 ||
-        p02 * p34 == p1 || p03 * p[4] == p1
+         p02 * p34 == p1 || p03 * p[4] == p1
         valid << p1
       elsif p01 * p23 == p2
         valid << p2
@@ -31,4 +30,11 @@ class Problem32 < Problem
   end
 end
 
-puts Problem32.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

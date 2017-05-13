@@ -1,10 +1,9 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "divisors"
 
-# Solver for http://projecteuler.net/problem=21
-class Problem21 < Problem
-  def solve
+# Solves http://projecteuler.net/problem=21
+class Problem
+  def self.solution_1
     amicable = []
     (2..10_000).each do |i|
       a = divisors_sum(i)
@@ -15,9 +14,16 @@ class Problem21 < Problem
     amicable.uniq.reduce(:+)
   end
 
-  def divisors_sum(n)
+  def self.divisors_sum(n)
     divisors(n).reduce(:+)
   end
 end
 
-puts Problem21.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

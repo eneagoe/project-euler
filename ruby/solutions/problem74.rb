@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "digits"
 
-# Solver for http://projecteuler.net/problem=74
-# brute-force, extremely slow
-class Problem74 < Problem
-  def solve
+# Solves http://projecteuler.net/problem=74
+# FIXME: brute-force, extremely slow, within 1m limit
+class Problem
+  def self.solution_1
     f = (1..9).map { |i| (1..i).reduce(:*) }.unshift 1
 
     (1..1_000_000).count do |n|
@@ -24,4 +23,11 @@ class Problem74 < Problem
   end
 end
 
-puts Problem74.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

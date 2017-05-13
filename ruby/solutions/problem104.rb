@@ -1,11 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "pandigital"
 
-# Solver for http://projecteuler.net/problem=104
-class Problem104 < Problem
+# Solves http://projecteuler.net/problem=104
+class Problem
   # brute-force, extremely slow
-  def solve
+  def self.solution_1
     cut = 1_000_000_000
     idx, i, j = 0, 0, 1
     loop do
@@ -19,4 +18,11 @@ class Problem104 < Problem
   end
 end
 
-puts Problem104.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

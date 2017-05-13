@@ -1,16 +1,10 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=90
-class Problem90 < Problem
-  attr_reader :squares
+# Solves http://projecteuler.net/problem=90
+class Problem
+  SQUARES = (1..9).map { |i| (i**2).to_s.rjust(2, "0").split(//).map(&:to_i) }
 
-  def initialize
-    @squares =
-      (1..9).map { |i| (i**2).to_s.rjust(2, "0").split(//).map(&:to_i) }
-  end
-
-  def solve
+  def self.solution_1
     potentials = []
     arr = (0..9).to_a.combination(6).to_a
 
@@ -28,11 +22,18 @@ class Problem90 < Problem
     potentials.size
   end
 
-  def valid?(d1, d2)
-    squares.all? do |(t, u)|
+  def self.valid?(d1, d2)
+    SQUARES.all? do |(t, u)|
       d1.include?(t) && d2.include?(u) || d2.include?(t) && d1.include?(u)
     end
   end
 end
 
-puts Problem90.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

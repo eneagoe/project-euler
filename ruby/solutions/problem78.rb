@@ -1,9 +1,8 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=78
-class Problem78 < Problem
-  def solve # rubocop:disable MethodLength, CyclomaticComplexity
+# Solves http://projecteuler.net/problem=78
+class Problem
+  def self.solution_1
     p = []
     p[0], p[1] = 1, 1
     d = 1_000_000
@@ -22,7 +21,7 @@ class Problem78 < Problem
         p[n] = 0 if p[n].nil?
         p[n] += s * p[m1].to_i if m1 >= 0
         p[n] += s * p[m2].to_i if m2 >= 0
-        break if m1 < 0 && m2 < 0
+        break if m1.negative? && m2.negative?
       end
 
       p[n] %= d
@@ -32,4 +31,11 @@ class Problem78 < Problem
   end
 end
 
-puts Problem78.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

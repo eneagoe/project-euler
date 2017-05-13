@@ -1,12 +1,11 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=84
-class Problem84 < Problem
-  def solve # rubocop:disable MethodLength, CyclomaticComplexity
+# Solves http://projecteuler.net/problem=84
+class Problem
+  def self.solution_1
     samples = 2_000_000
     position = 0
-    stats = (0..39).map { |i| 0 }
+    stats = Array.new(40, 0)
     cc = [2, 17, 33]
     ch = [7, 22, 36]
     chest = [0, 10, false, false, false, false, false, false, false, false,
@@ -16,7 +15,7 @@ class Problem84 < Problem
     doubles = 0
 
     # run simulation, compute stats
-    (1..samples).each do |sample|
+    samples.times do
       d1, d2 = roll_dice, roll_dice
 
       if d1 == d2
@@ -64,12 +63,11 @@ class Problem84 < Problem
     sol = {}
     stats.map { |s| (s.to_f / samples) * 100 }.
       each_with_index { |s, i| sol[i] = s }
-    sol = sol.sort_by { |k, v| v }.last(3).reverse
-    sol.map { |i| i[0] }.join
+    sol = sol.sort_by { |_, v| v }.last(3).reverse
+    sol.map(&:first).join
   end
 
-  # rubocop:disable CyclomaticComplexity
-  def new_position(card, position)
+  def self.new_position(card, position)
     if card == "U"
       position == 22 ? 28 : 12
     elsif card == "R"
@@ -78,16 +76,23 @@ class Problem84 < Problem
       else
         position == 22 ? 25 : 5
       end
-    elsif card < 0
+    elsif card.negative?
       (position + card) % 40
     else
       card
     end
   end
 
-  def roll_dice
+  def self.roll_dice
     [1, 2, 3, 4].sample
   end
 end
 
-puts Problem84.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

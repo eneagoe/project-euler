@@ -1,9 +1,8 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 
-# Solver for http://projecteuler.net/problem=91
-class Problem91 < Problem
-  def solve
+# Solves http://projecteuler.net/problem=91
+class Problem
+  def self.solution_1
     n = 50
     right_triangles_count = 0
     (0..n).each do |x1|
@@ -14,10 +13,10 @@ class Problem91 < Problem
             # skip origin or other point
             next if [x2, y2] == [x1, y1] || [x2, y2] == [0, 0]
             # are any two vectors perpendicular?
-            if x1*x2 + y1*y2 == 0 || x1*(x2-x1) + y1*(y2-y1) == 0 ||
-               x2*(x1-x2) + y2*(y1-y2) == 0
-              right_triangles_count += 1 # if so, we found a right triangle
-            end
+            next unless (x1 * x2 + y1 * y2).zero? ||
+                        (x1 * (x2 - x1) + y1 * (y2 - y1)).zero? ||
+                        (x2 * (x1 - x2) + y2 * (y1 - y2)).zero?
+            right_triangles_count += 1 # if so, we found a right triangle
           end
         end
       end
@@ -26,4 +25,11 @@ class Problem91 < Problem
   end
 end
 
-puts Problem91.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end

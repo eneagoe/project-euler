@@ -1,10 +1,9 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
-require "problem"
 require "set"
 
-# Solver for http://projecteuler.net/problem=29
-class Problem29 < Problem
-  def solve
+# Solves http://projecteuler.net/problem=29
+class Problem
+  def self.solution_1
     n, seq = 100, Set.new
 
     (2..n).each do |a|
@@ -15,4 +14,11 @@ class Problem29 < Problem
   end
 end
 
-puts Problem29.solution if $PROGRAM_NAME == __FILE__
+if $PROGRAM_NAME == __FILE__
+  solution = if ARGV[0]
+               Problem.public_send("solution_#{ARGV[0]}")
+             else
+               Problem.solution_1
+             end
+  puts solution
+end
